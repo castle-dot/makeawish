@@ -3,32 +3,39 @@
 {% block title %}My Profile{% endblock %}
 
 {% block content %}
+
 <h1>My Profile</h1>
 
-<!-- Profile Picture -->
-{% if user.profile_picture %}
-    <p>
-        <strong>Profile Picture:</strong><br>
-        <img src="{{ user.profile_picture.url }}" alt="Profile picture of {{ user.username }}" 
-             width="200" height="200">
-    </p>
-{% else %}
-    <p>
-        <strong>Profile Picture:</strong> No picture uploaded yet.
-    </p>
-{% endif %}
-
-<!-- Username and other info -->
-<p><strong>Username:</strong> {{ user.username }}</p>
-<p><strong>Email:</strong> {{ user.email|default:"Not set" }}</p>
+<p>Username: {{ user.username }}</p>
+<p>Email: {{ user.email|default:"not set" }}</p>
 
 {% if user.bio %}
-    <p><strong>Bio:</strong> {{ user.bio }}</p>
-{% else %}
-    <p><strong>Bio:</strong> No bio yet.</p>
+    <p>Bio: {{ user.bio }}</p>
 {% endif %}
 
-<!-- Logout link (simple GET for now, we'll fix if 405 comes back) -->
-<p><a href="{% url 'accounts:logout' %}">Logout</a></p>
+{% if user.profile_picture %}
+    <p>Picture: <img src="{{ user.profile_picture.url }}" width="150"></p>
+{% else %}
+    <p>No profile picture.</p>
+{% endif %}
+
+<h2>My Wishes</h2>
+
+{% if my_wishes %}
+    <ul>
+        {% for wish in my_wishes %}
+            <li>
+                <a href="{% url 'wishes:detail' wish.pk %}">{{ wish.title }}</a>
+                {% if wish.is_granted %}
+                    [Granted]
+                {% else %}
+                    [Pending]
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No wishes yet. <a href="{% url 'wishes:create' %}">Post one</a>.</p>
+{% endif %}
 
 {% endblock %}

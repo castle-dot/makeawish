@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Edit Wish{% else %}Post Wish{% endif %}{% endblock %}
+
+{% block content %}
+
+<h2>{% if object %}Edit Wish{% else %}Post a Wish{% endif %}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'home' %}">Cancel</a>
+
+{% endblock %}

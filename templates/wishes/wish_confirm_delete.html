@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Wish{% endblock %}
+
+{% block content %}
+<h2>Delete Wish: {{ object.title }}</h2>
+
+<p>Are you sure you want to delete this wish?</p>
+<p>This action cannot be undone.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" style="background:red;color:white;padding:10px 20px;border:none;cursor:pointer;">
+        Yes, Delete
+    </button>
+    <a href="{% url 'wishes:detail' object.pk %}">No, Cancel</a>
+</form>
+{% endblock %}

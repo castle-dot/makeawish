@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Mark as Granted{% endblock %}
+
+{% block content %}
+<h2>Mark "{{ wish.title }}" as Granted?</h2>
+
+<p>This will permanently mark the wish as fulfilled/granted.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Mark as Granted</button>
+    <a href="{% url 'wishes:detail' wish.pk %}">Cancel</a>
+</form>
+{% endblock %}

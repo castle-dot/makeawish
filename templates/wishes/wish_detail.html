@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ wish.title }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ wish.title }}</h1>
+
+<p>Posted by {{ wish.user.username }} on {{ wish.created_at|date:"d M Y" }}</p>
+
+{% if wish.is_granted %}
+    <p style="color:green;">Granted</p>
+{% else %}
+    <p style="color:orange;">Pending</p>
+{% endif %}
+
+<h3>Description</h3>
+<p>{{ wish.description|linebreaks }}</p>
+
+{% if user == wish.user %}
+    {% if not wish.is_granted %}
+        <p>
+            <form action="{% url 'wishes:mark_granted' wish.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Mark as Granted</button>
+            </form>
+        </p>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'wishes:update' wish.pk %}">Edit</a> |
+        <a href="{% url 'wishes:delete' wish.pk %}">Delete</a>
+    </p>
+{% endif %}
+
+<p><a href="{% url 'home' %}">Back to home</a></p>
+
+{% endblock %}

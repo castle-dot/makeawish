@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from wishes.models import Wish
+
 from .forms import CustomUserCreationForm  # or SignUpForm — use whatever name you have
 
 
@@ -28,9 +30,12 @@ class CustomLogoutView(LogoutView):
     template_name = 'accounts/logout.html'
     http_method_names = ['get', 'post']  # create this template
     
-    
-
-# Profile – basic version for now
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/profile.html'
     login_url = 'accounts:login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add the current user's wishes (newest first)
+        context['my_wishes'] = Wish.objects.filter(user=self.request.user).order_by('-created_at')
+        return context

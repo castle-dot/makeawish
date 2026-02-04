@@ -1,19 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Make A Wish{% endblock %}
+{% block title %}All Wishes{% endblock %}
 
 {% block content %}
 
-<h1>Make A Wish</h1>
-<p>Share your dreams. Someone might help make them come true.</p>
-
-{% if user.is_authenticated %}
-    <p><a href="{% url 'wishes:create' %}">Post a Wish</a></p>
-{% else %}
-    <p><a href="{% url 'accounts:signup' %}">Sign up</a> or <a href="{% url 'accounts:login' %}">log in</a> to post wishes.</p>
-{% endif %}
-
-<h2>Recent Wishes</h2>
+<h1>All Wishes</h1>
 
 {% if wishes %}
     <ul>
@@ -30,7 +21,7 @@
         {% endfor %}
     </ul>
 {% else %}
-    <p>No wishes yet.</p>
+    <p>No wishes posted yet.</p>
 {% endif %}
 
 {% endblock %}
