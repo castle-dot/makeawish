@@ -1,11 +1,76 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Make A Wish - Share Your Dreams 🌟{% endblock %}
 
 {% block content %}
+<!-- Hero Section -->
+<div class="bg-primary text-white text-center py-5 rounded-4 mb-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Make A Wish</h1>
+        <p class="lead mt-3">
+            Share your dreams, hopes, and wildest ideas.<br>
+            Someone out there might just make them come true.
+        </p>
+        
+        {% if user.is_authenticated %}
+         
+            <div class="mt-4">
+                <a href="{% url 'accounts:signup' %}" class="btn btn-light btn-lg me-3 px-5">Sign Up</a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-light btn-lg px-5">Log In</a>
+                <!-- In the navbar ul -->
+{% if user.is_authenticated %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'accounts:profile' %}">Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a></li>
+{% else %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a></li>
+{% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
 
-<h2 class="mb-4">Latest Wishes</h2>
+<!-- Features -->
+<div class="container my-5">
+    <div class="row text-center g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h3>Share Freely</h3>
+                    <p class="card-text text-muted mt-3">
+                        Post your wishes — big or small, anonymously or with your name.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h3>Support Others</h3>
+                    <p class="card-text text-muted mt-3">
+                        Browse wishes, like them, and help make dreams come true.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h3>Celebrate Wins</h3>
+                    <p class="card-text text-muted mt-3">
+                        See granted wishes and inspiring success stories.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>Welcome to MakeAWish 🎉</p>
-
+<!-- Recent Wishes Placeholder -->
+<div class="container mb-5">
+    <h2 class="text-center mb-4 fw-bold">Recent Wishes</h2>
+    <p class="text-center text-muted lead">
+        (Wish feed coming soon — after we create the wishes app)
+    </p>
+</div>
 {% endblock %}

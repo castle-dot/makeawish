@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<h1>My Profile</h1>
+
+<!-- Profile Picture -->
+{% if user.profile_picture %}
+    <p>
+        <strong>Profile Picture:</strong><br>
+        <img src="{{ user.profile_picture.url }}" alt="Profile picture of {{ user.username }}" 
+             width="200" height="200">
+    </p>
+{% else %}
+    <p>
+        <strong>Profile Picture:</strong> No picture uploaded yet.
+    </p>
+{% endif %}
+
+<!-- Username and other info -->
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email|default:"Not set" }}</p>
+
+{% if user.bio %}
+    <p><strong>Bio:</strong> {{ user.bio }}</p>
+{% else %}
+    <p><strong>Bio:</strong> No bio yet.</p>
+{% endif %}
+
+<!-- Logout link (simple GET for now, we'll fix if 405 comes back) -->
+<p><a href="{% url 'accounts:logout' %}">Logout</a></p>
+
+{% endblock %}
