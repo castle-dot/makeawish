@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-ktb!eei_j8^0)iy1reh9(sk@g_l8bjg&2jy@jds4h=#60l5s=b
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = [*]  # Update this with your domain or IP in production
-
+  # Update this with your domain or IP in production
+ALLOWED_HOSTS = ['*']   
 
 # Application definition
 
@@ -46,14 +46,20 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+
     'django.middleware.csrf.CsrfViewMiddleware',
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ROOT_URLCONF = 'makeawish.urls'
 
 TEMPLATES = [
@@ -126,7 +132,3 @@ LOGOUT_REDIRECT_URL = 'home'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']  # if you have a project-level static folder
-MIDDLEWARE = [
-    # ... other middleware ...
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-]
