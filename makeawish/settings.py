@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,9 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ktb!eei_j8^0)iy1reh9(sk@g_l8bjg&2jy@jds4h=#60l5s=b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = [*]  # Update this with your domain or IP in production
 
 
 # Application definition
@@ -126,3 +126,7 @@ LOGOUT_REDIRECT_URL = 'home'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']  # if you have a project-level static folder
+MIDDLEWARE = [
+    # ... other middleware ...
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+]
