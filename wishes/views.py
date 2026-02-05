@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+
+from comments.forms import CommentForm
 from .models import Wish
 from .forms import WishForm
 
@@ -29,6 +31,10 @@ class WishDetailView(DetailView):
     model = Wish
     template_name = 'wishes/wish_detail.html'
     context_object_name = 'wish'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CommentForm()  
+        return context
 
 class WishUpdateView(LoginRequiredMixin, UpdateView):
     model = Wish

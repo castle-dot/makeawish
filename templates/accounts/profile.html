@@ -14,7 +14,7 @@
 {% endif %}
 
 {% if user.profile_picture %}
-    <p>Picture: <img src="{{ user.profile_picture.url }}" width="150"></p>
+    <img src="{{ user.profile_picture.url }}" alt="Profile" width="150">
 {% else %}
     <p>No profile picture.</p>
 {% endif %}

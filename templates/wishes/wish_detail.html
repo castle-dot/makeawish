@@ -4,35 +4,88 @@
 
 {% block content %}
 
-<h1>{{ wish.title }}</h1>
+<div class="row justify-content-center">
+    <div class="col-lg-9">
 
-<p>Posted by {{ wish.user.username }} on {{ wish.created_at|date:"d M Y" }}</p>
+        <!-- Title – big, centered, standout -->
+        <h1 style="font-size: 3.2rem; text-align: center; margin: 40px 0 20px; color: #3c2f2f; font-weight: bold; letter-spacing: 0.5px;">
+            {{ wish.title }}
+        </h1>
 
-{% if wish.is_granted %}
-    <p style="color:green;">Granted</p>
-{% else %}
-    <p style="color:orange;">Pending</p>
-{% endif %}
+        <!-- Meta info – small, subtle -->
+        <p style="text-align: center; color: #6b4e31; font-size: 1.1rem; margin-bottom: 40px;">
+            by <strong>{{ wish.user.username }}</strong> • {{ wish.created_at|date:"d M Y H:i" }}
+        </p>
 
-<h3>Description</h3>
-<p>{{ wish.description|linebreaks }}</p>
+        <!-- Status badge – prominent but not too loud -->
+        <div style="text-align: center; margin-bottom: 35px;">
+            {% if wish.is_granted %}
+                <span style="background: #e6ffe6; color: #006400; padding: 8px 18px; border-radius: 20px; border: 1px solid #b3ffb3; font-size: 1.1rem; font-weight: bold;">
+                    Granted ✅
+                </span>
+            {% else %}
+                <span style="background: #fff0f0; color: #8b0000; padding: 8px 18px; border-radius: 20px; border: 1px solid #ffb3b3; font-size: 1.1rem; font-weight: bold;">
+                    Pending ⚠️
+                </span>
+            {% endif %}
+        </div>
 
-{% if user == wish.user %}
-    {% if not wish.is_granted %}
-        <p>
+        <!-- Description – very visible, framed, readable -->
+        <div class="card" style="background: #fffef5; border: 2px solid #d2b48c; border-radius: 12px; padding: 35px 30px; margin-bottom: 50px; box-shadow: 0 4px 12px rgba(92, 45, 13, 0.08);">
+            <h3 style="color: #5c2d0d; margin-bottom: 25px; font-size: 1.8rem;"></h3>
+            <div style="font-size: 1.25rem; line-height: 1.8; color: #3c2f2f;">
+                {{ wish.description|linebreaks }}
+            </div>
+        </div>
+
+        <!-- Owner controls -->
+        {% if user == wish.user %}
+    <!-- Owner controls -->
+    <div style="margin:30px 0; text-align:center;">
+        {% if not wish.is_granted %}
             <form action="{% url 'wishes:mark_granted' wish.pk %}" method="post" style="display:inline;">
                 {% csrf_token %}
-                <button type="submit">Mark as Granted</button>
+                <button type="submit" class="btn" style="background:#28a745; color:white; padding:12px 30px; border:none; border-radius:8px; font-size:1.2rem; cursor:pointer;">
+                    Mark as Granted
+                </button>
             </form>
-        </p>
-    {% endif %}
+        {% else %}
+            <span class="status-granted" style="font-size:1.2rem; padding:10px 25px;">
+                Already Granted
+            </span>
+        {% endif %}
+        
+        <a href="{% url 'wishes:update' wish.pk %}" class="btn" style="margin-left:20px; background:#8b6914;">
+            Edit Wish
+        </a>
+        <a href="{% url 'wishes:delete' wish.pk %}" class="btn" style="margin-left:20px; background:#a52a2a;">
+            Delete Wish
+        </a>
+    </div>
 
-    <p>
-        <a href="{% url 'wishes:update' wish.pk %}">Edit</a> |
-        <a href="{% url 'wishes:delete' wish.pk %}">Delete</a>
-    </p>
-{% endif %}
+            {% else %}
+                <p style="color: #777; font-style: italic;">No comments yet. Be the first to write one.</p>
+            {% endif %}
 
-<p><a href="{% url 'home' %}">Back to home</a></p>
+            {% if user.is_authenticated %}
+                <h4 style="margin: 40px 0 20px;">Add Your Comment</h4>
+                <form method="post" action="{% url 'comments:add' wish.pk %}">
+                    {% csrf_token %}
+                    <textarea name="content" rows="4" class="form-control" placeholder="Write your thoughts..." required style="font-size: 1.05rem;"></textarea>
+                    <button type="submit" class="btn" style="margin-top: 15px; background: #8b6914;">Post Comment</button>
+                </form>
+            {% else %}
+                <p style="margin-top: 30px; text-align: center;">
+                    <a href="{% url 'accounts:login' %}">Log in</a> to leave a comment.
+                </p>
+            {% endif %}
+        </div>
+
+        <div style="text-align: center; margin: 50px 0;">
+            <a href="{% url 'home' %}">← Back to all wishes</a>
+        </div>
+
+    </div>
+</div>
 
 {% endblock %}

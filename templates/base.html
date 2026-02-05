@@ -1,30 +1,209 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Make A Wish{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}🎇Make A Wish🎇{% endblock %}</title>
+   
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+   
+    <style>
+    body {
+        background: #fdfaf0;
+        color: #3c2f2f;
+        /* TWEAK BODY FONT HERE */
+        font-family: 'Lora', serif;
+        line-height: 1.7;
+        margin: 0;
+        padding: 0;
+        position: relative; /* Necessary for absolute positioning of ad */
+    }
+    .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 30px 20px;
+        position: relative;
+        /* Centering Logic: Space for ad (300px) + equal space on right to center content in between */
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 320px; 
+        padding-right: 320px;
+    }
+    h1, h2, h3, .navbar-brand {
+        /* TWEAK HEADING FONT HERE */
+        font-family: 'Playfair Display', serif;
+        color: #5c2d0d;
+        margin-bottom: 0.5em;
+    }
+    h1 { font-size: 4.5rem; letter-spacing: 1px; }
+    h2 { font-size: 3rem; }
+    a { color: #b8860b; text-decoration: none; }
+    a:hover { color: #8b6914; text-decoration: underline; }
+    .navbar {
+        background: #f9f3e6;
+        border-bottom: 2px solid #d2b48c;
+        padding: 20px 0;
+        margin-bottom: 40px;
+        font-size: 1.3rem;
+    }
+    .navbar-brand { font-size: 3.2rem; }
+    .card {
+        background: #fffef5;
+        border: 1px solid #e0d4b7;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 6px 12px rgba(92, 45, 13, 0.08);
+    }
+    .btn {
+        background: #b8860b;
+        color: white;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+    .btn:hover { background: #9b7309; }
+    .status-granted {
+        background: #e6ffe6;
+        color: #006400;
+        padding: 6px 14px;
+        border-radius: 6px;
+        border: 1px solid #b3ffb3;
+        font-weight: bold;
+    }
+    .status-pending {
+        background: #fff0f0;
+        color: #8b0000;
+        padding: 6px 14px;
+        border-radius: 6px;
+        border: 1px solid #ffb3b3;
+        font-weight: bold;
+    }
+    .comment {
+        border-left: 4px solid #d2b48c;
+        padding-left: 15px;
+        margin: 15px 0;
+    }
+
+    /* === FLOATING (NOT FIXED) AD BAR === */
+    .left-ad-bar {
+        position: absolute; /* Changed from fixed to absolute so it scrolls away */
+        top: 120px;
+        left: 20px;
+        width: 280px;
+        height: 760px;
+        background: #fffef5;
+        border: 2px solid #d2b48c;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(92,45,13,0.12);
+        z-index: 1000;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+    .left-ad-bar img, .left-ad-bar video {
+        max-width: 100%;
+        max-height: 90%;
+        object-fit: contain;
+        border-radius: 8px;
+    }
+    .left-ad-bar p {
+        margin: 10px 0 0;
+        font-size: 0.95rem;
+        color: #8b6914;
+    }
+
+    /* === MOBILE RESPONSIVE FIXES === */
+    @media (max-width: 1600px) {
+        /* Reduce side padding on smaller desktops to keep it centered but fitting */
+        .container {
+            padding-left: 300px;
+            padding-right: 20px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .left-ad-bar {
+            display: none;
+        }
+        .container {
+            margin-left: 0 !important;
+            padding: 20px 15px !important;
+        }
+        .navbar {
+            padding: 15px 0;
+        }
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.2rem; }
+        .btn {
+            width: 100%;
+            margin: 10px 0;
+            padding: 14px;
+            font-size: 1.3rem;
+        }
+        .card {
+            padding: 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        h1 { font-size: 2.5rem; }
+        .navbar-brand { font-size: 2.5rem; }
+    }
+    </style>
 </head>
 <body>
 
-    <p>
-        {% if user.is_authenticated %}
-            Logged in as: {{ user.username }} | 
-            <a href="{% url 'accounts:profile' %}">Profile</a> | 
-            <a href="{% url 'wishes:create' %}">Post Wish</a> | 
-            <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Logout</button>
-            </form>
-        {% else %}
-            <a href="{% url 'accounts:login' %}">Login</a> | 
-            <a href="{% url 'accounts:signup' %}">Sign Up</a>
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">Make A Wish</a>
+            <div style="float:right; margin-top:15px;">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:profile' %}">Profile</a> •
+                    <a href="{% url 'wishes:create' %}">Post Wish</a> •
+                    <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background:none;border:none;color:#5c2d0d;cursor:pointer;font-size:1.1rem;font-family:inherit;">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}">Login</a> •
+                    <a href="{% url 'accounts:signup' %}">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="left-ad-bar">
+        <img src="{% static 'images/image.png' %}" alt="Ad Banner" style="max-width:100%; height:auto;">
+    </div>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" style="background:#fffef5; border:1px solid #d2b48c; color:#5c2d0d;">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endif %}
-    </p>
+    </div>
 
-    <hr>
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
 
-    {% block content %}
-    {% endblock %}
+    <footer style="text-align:center; margin-top:60px; color:#777; padding-bottom: 20px;">
+        <p>Support the site:
+            <a href="https://www.youtube.com/@neger_memes/videos" target="_blank">BUNA☕</a>
+        </p>
+    </footer>
 
 </body>
 </html>
