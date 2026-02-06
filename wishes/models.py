@@ -31,7 +31,6 @@ class Wish(models.Model):
         max_length=100,
         blank=True,
         null=True,
-        
     )
 
   
@@ -39,3 +38,14 @@ class Wish(models.Model):
 
     def __str__(self):
         return self.title
+class Like(models.Model):
+    wish = models.ForeignKey(Wish, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['wish', 'user']  # one like per user per wish
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user} liked {self.wish.title}"

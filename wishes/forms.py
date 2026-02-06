@@ -11,5 +11,4 @@ class WishForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 5}),
             'phone_number': forms.TextInput(attrs={'placeholder': '0912345678 or +2519...'}),
             'bank_account': forms.TextInput(attrs={'placeholder': 'Account number'}),
-            'bank_name': forms.TextInput(attrs={'placeholder': 'Bank name'}),
         }

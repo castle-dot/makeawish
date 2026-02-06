@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 from comments.forms import CommentForm
-from .models import Wish
+from .models import Wish, Like
 from .forms import WishForm
 
 
@@ -31,11 +31,11 @@ class WishDetailView(DetailView):
     model = Wish
     template_name = 'wishes/wish_detail.html'
     context_object_name = 'wish'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = CommentForm()  
+        context['form'] = CommentForm()  # ← this is required for the form in template
         return context
-
 class WishUpdateView(LoginRequiredMixin, UpdateView):
     model = Wish
     form_class = WishForm
@@ -70,4 +70,21 @@ def mark_granted(request, pk):
         wish.save()
         messages.success(request, "Wish marked as granted!")
     
+    return redirect('wishes:detail', pk=pk)
+
+
+@login_required
+def toggle_like_simple(request, pk):
+    wish = get_object_or_404(Wish, pk=pk)
+
+    # Check if user already liked
+    like = Like.objects.filter(wish=wish, user=request.user).first()
+
+    if like:
+        like.delete()
+        messages.info(request, "Unliked!")
+    else:
+        Like.objects.create(wish=wish, user=request.user)
+        messages.success(request, "Liked!")
+
     return redirect('wishes:detail', pk=pk)
