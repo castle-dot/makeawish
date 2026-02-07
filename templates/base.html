@@ -6,174 +6,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}🎇Make A Wish🎇{% endblock %}</title>
    
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
    
     <style>
-    body {
-        background: #fdfaf0;
-        color: #3c2f2f;
-        /* TWEAK BODY FONT HERE */
-        font-family: 'Lora', serif;
-        line-height: 1.7;
-        margin: 0;
-        padding: 0;
-        position: relative; /* Necessary for absolute positioning of ad */
-    }
-    .container {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 30px 20px;
-        position: relative;
-        /* Centering Logic: Space for ad (300px) + equal space on right to center content in between */
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: 320px; 
-        padding-right: 320px;
-    }
-    h1, h2, h3, .navbar-brand {
-        /* TWEAK HEADING FONT HERE */
-        font-family: 'Playfair Display', serif;
-        color: #5c2d0d;
-        margin-bottom: 0.5em;
-    }
-    h1 { font-size: 4.5rem; letter-spacing: 1px; }
-    h2 { font-size: 3rem; }
-    a { color: #b8860b; text-decoration: none; }
-    a:hover { color: #8b6914; text-decoration: underline; }
-    .navbar {
-        background: #f9f3e6;
-        border-bottom: 2px solid #d2b48c;
-        padding: 20px 0;
-        margin-bottom: 40px;
-        font-size: 1.3rem;
-    }
-    .navbar-brand { font-size: 3.2rem; }
-    .card {
-        background: #fffef5;
-        border: 1px solid #e0d4b7;
-        border-radius: 12px;
-        padding: 25px;
-        margin-bottom: 30px;
-        box-shadow: 0 6px 12px rgba(92, 45, 13, 0.08);
-    }
-    .btn {
-        background: #b8860b;
-        color: white;
-        border: none;
-        padding: 12px 28px;
-        border-radius: 8px;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
-    .btn:hover { background: #9b7309; }
-    .status-granted {
-        background: #e6ffe6;
-        color: #006400;
-        padding: 6px 14px;
-        border-radius: 6px;
-        border: 1px solid #b3ffb3;
-        font-weight: bold;
-    }
-    .status-pending {
-        background: #fff0f0;
-        color: #8b0000;
-        padding: 6px 14px;
-        border-radius: 6px;
-        border: 1px solid #ffb3b3;
-        font-weight: bold;
-    }
-    .comment {
-        border-left: 4px solid #d2b48c;
-        padding-left: 15px;
-        margin: 15px 0;
-    }
+        :root {
+            --wood: #2b1a12;
+            --parchment: #e2cfb6; /* Slightly brighter for better reading */
+            --dark-ink: #1a1a1b;
+            --faded-gold: #c5a67c; /* Brightened from previous version */
+        }
 
-    /* === FLOATING (NOT FIXED) AD BAR === */
-    .left-ad-bar {
-        position: absolute; /* Changed from fixed to absolute so it scrolls away */
-        top: 120px;
-        left: 20px;
-        width: 280px;
-        height: 760px;
-        background: #fffef5;
-        border: 2px solid #d2b48c;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(92,45,13,0.12);
-        z-index: 1000;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 15px;
-    }
-    .left-ad-bar img, .left-ad-bar video {
-        max-width: 100%;
-        max-height: 90%;
-        object-fit: contain;
-        border-radius: 8px;
-    }
-    .left-ad-bar p {
-        margin: 10px 0 0;
-        font-size: 0.95rem;
-        color: #8b6914;
-    }
+        body {
+            background-color: var(--dark-ink);
+            background-image: url("https://www.transparenttextures.com/patterns/dark-wood.png");
+            color: var(--parchment);
+            font-family: 'Crimson Text', serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* === MOBILE RESPONSIVE FIXES === */
-    @media (max-width: 1600px) {
-        /* Reduce side padding on smaller desktops to keep it centered but fitting */
         .container {
-            padding-left: 300px;
-            padding-right: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            padding-left: 340px; 
         }
-    }
 
-    @media (max-width: 992px) {
-        .left-ad-bar {
-            display: none;
+        /* Typography - Updated for clarity */
+        h1, .navbar-brand {
+            font-family: 'Playfair Display', serif; /* New Font Choice */
+            color: var(--faded-gold);
+            font-weight: 700;
+            font-style: italic; /* Keeps that "written" feel without being messy */
+            margin-bottom: 0em;
+            text-transform: capitalize;
         }
-        .container {
-            margin-left: 0 !important;
-            padding: 20px 15px !important;
+
+        h1 { font-size: 4rem; letter-spacing: 0px; text-align: center; }
+        h2, h3 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--faded-gold); }
+
+        a { 
+            color: var(--faded-gold); 
+            text-decoration: underline; 
+            text-decoration-color: rgba(197, 166, 124, 0.4);
+            transition: 0.3s;
         }
+        a:hover { color: #fff; text-decoration-color: var(--faded-gold); }
+
+        /* Navbar */
         .navbar {
-            padding: 15px 0;
+            background: rgba(26, 26, 27, 0.95);
+            border-bottom: 2px solid var(--wood);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
         }
-        h1 { font-size: 3rem; }
-        h2 { font-size: 2.2rem; }
-        .btn {
-            width: 100%;
-            margin: 10px 0;
-            padding: 14px;
-            font-size: 1.3rem;
-        }
-        .card {
-            padding: 20px;
-        }
-    }
+        .navbar-brand { font-size: 2.8rem; text-decoration: none !important; }
 
-    @media (max-width: 576px) {
-        h1 { font-size: 2.5rem; }
-        .navbar-brand { font-size: 2.5rem; }
-    }
+        /* === AD BAR === */
+        .left-ad-bar {
+            position: fixed;
+            top: 140px;
+            left: 30px;
+            width: 260px;
+            background: #000;
+            border: 8px solid var(--wood);
+            outline: 1px solid var(--faded-gold);
+            padding: 5px;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+        
+        .left-ad-bar img {
+            width: 100%;
+            height: auto;
+            filter: sepia(30%) contrast(110%);
+            display: block;
+        }
+
+        .left-ad-bar p {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--faded-gold);
+            margin: 10px 0 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* The Card */
+        .card {
+            background: #252526;
+            border: 1px solid var(--wood);
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5), 5px 5px 15px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* Button: Wax Seal Red */
+        .btn {
+            background: #7a211a; 
+            color: #f1e4d1;
+            border: 1px solid #3d100d;
+            padding: 12px 28px;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.4);
+            transition: 0.2s;
+        }
+        .btn:hover { background: #962a22; transform: scale(1.02); }
+
+        .alert {
+            border: 1px solid var(--faded-gold);
+            padding: 15px;
+            background: rgba(197, 166, 124, 0.1);
+            color: var(--faded-gold);
+            margin-bottom: 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .left-ad-bar { display: none; }
+            .container { padding-left: 20px !important; }
+            h1 { font-size: 2.8rem; }
+        }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="container">
+        <div class="container" style="padding-top:0; padding-bottom:0;">
             <a class="navbar-brand" href="{% url 'home' %}">Make A Wish</a>
-            <div style="float:right; margin-top:15px;">
+            <div style="float:right; margin-top:15px; font-family: 'Playfair Display', serif;">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'accounts:profile' %}">Profile</a> •
-                    <a href="{% url 'wishes:create' %}">Post Wish</a> •
+                    <a href="{% url 'accounts:profile' %}">Profile</a> &nbsp;•&nbsp;
+                    <a href="{% url 'wishes:create' %}">Post Wish</a> &nbsp;•&nbsp;
                     <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
                         {% csrf_token %}
-                        <button type="submit" style="background:none;border:none;color:#5c2d0d;cursor:pointer;font-size:1.1rem;font-family:inherit;">Logout</button>
+                        <button type="submit" style="background:none;border:none;color:var(--faded-gold);cursor:pointer;font-family:inherit;font-size:1.1rem;text-decoration:underline;">Logout</button>
                     </form>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}">Login</a> •
+                    <a href="{% url 'accounts:login' %}">Login</a> &nbsp;•&nbsp;
                     <a href="{% url 'accounts:signup' %}">Sign Up</a>
                 {% endif %}
             </div>
@@ -181,13 +160,14 @@
     </nav>
 
     <div class="left-ad-bar">
-        <img src="{% static 'images/image.png' %}" alt="Ad Banner" style="max-width:100%; height:auto;">
+        <p>Gems</p>
+        <img src="https://i.ibb.co/KtvWXb0/ad-banner.png" alt="Antique Ad">
     </div>
 
     <div class="container">
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}" style="background:#fffef5; border:1px solid #d2b48c; color:#5c2d0d;">
+                <div class="alert">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -199,9 +179,12 @@
         {% endblock %}
     </main>
 
-    <footer style="text-align:center; margin-top:60px; color:#777; padding-bottom: 20px;">
-        <p>Support the site:
-            <a href="https://www.youtube.com/@neger_memes/videos" target="_blank">BUNA☕</a>
+    <footer style="text-align:center; margin-top: 290px; padding: 60px; opacity: 0.6;">
+        <p style="font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; color: var(--faded-gold);">
+            2026 &copy; Make A Wish. All rights reserved.
+        </p>
+        <p style="font-size: 0.9rem; letter-spacing: 1px;">
+            <a href="https://www.youtube.com/@neger_memes/videos" target="_blank">Also Check Out : BUNA☕</a>
         </p>
     </footer>
 

@@ -13,10 +13,12 @@
     <p>Bio: {{ user.bio }}</p>
 {% endif %}
 
-{% if user.profile_picture %}
-    <img src="{{ user.profile_picture.url }}" alt="Profile" width="150">
+{% if user.profile_picture_url %}
+    <img src="{{ user.profile_picture_url }}" alt="Profile Picture" style="max-width:200px; height:auto;">
+{% elif user.profile_picture %}
+    <img src="{{ user.profile_picture.url }}" alt="Profile Picture" style="max-width:200px; height:auto;">
 {% else %}
-    <p>No profile picture.</p>
+    <p>No profile picture set.</p>
 {% endif %}
 
 <h2>My Wishes</h2>
