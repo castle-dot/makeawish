@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}About - Make A Wish{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 40px auto; padding: 20px;">
+    
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--wood); border-radius: 12px; padding: 50px; box-shadow: 0 15px 35px rgba(0,0,0,0.6);">
+        
+        <h1 style="font-size: 3.5rem; color: var(--faded-gold); text-align: center; margin-bottom: 10px;">Our Story</h1>
+        <p style="text-align: center; font-family: 'Noto Sans Ethiopic', sans-serif; color: var(--faded-gold); font-size: 1.2rem; margin-bottom: 40px; opacity: 0.8;">
+            ስለ እኛ
+        </p>
+
+        <div style="font-size: 1.3rem; line-height: 1.9; color: var(--parchment); font-family: 'Crimson Text', serif;">
+            <p>
+                <strong>Make A Wish</strong> was founded on a simple, timeless principle: that no dream is too small to be shared, and no hand is too small to help. In an era of fast-paced digital noise, we created this space as a quiet archive for human hope.
+            </p>
+
+            <p style="margin-top: 25px;">
+                Whether you are seeking support, looking to fulfill someone else's dream, or simply wishing to leave a mark on our digital ledger, you are welcome here. This platform serves as a bridge between those who have a vision and those who have the means to make it a reality.
+            </p>
+
+            <div style="margin: 40px 0; padding: 30px; border-top: 1px double var(--wood); border-bottom: 1px double var(--wood); text-align: center; font-style: italic;">
+                "To wish is to be human. To grant is to be divine."
+            </div>
+
+            <h3 style="color: var(--faded-gold); font-size: 1.8rem; margin-top: 30px;">How It Works</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 15px;">📜 <strong>Post:</strong> Share your wish with the community. Be honest, be bold.</li>
+                <li style="margin-bottom: 15px;">🤝 <strong>Connect:</strong> Use the provided contact info to reach out and offer support.</li>
+                <li style="margin-bottom: 15px;">✨ <strong>Grant:</strong> Once a wish is fulfilled, mark it as granted to inspire others.</li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 50px; text-align: center; border-top: 1px solid var(--wood); padding-top: 30px;">
+            <a href="{% url 'wishes:create' %}" class="btn" style="padding: 15px 40px; border-radius: 30px;">
+                Post Your First Wish
+            </a>
+        </div>
+    </div>
+
+    <div style="margin-top: 100px;"></div>
+</div>
+{% endblock %}

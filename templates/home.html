@@ -4,59 +4,97 @@
 
 {% block content %}
 
-<div style="text-align:center; margin:40px 0;">
-    <h1 style="font-size:4rem; margin-bottom:20px;">🪄Make A Wish🪄</h1>
-    <p style="font-size:1.4rem; color:#5c4033;">
+<div style="text-align:center; margin: 0 auto 50px; padding-top: 0;"> 
+    <h1 style="font-size:4.5rem; margin-bottom:5px; color: var(--faded-gold); text-shadow: 0 0 20px rgba(210, 180, 140, 0.3); letter-spacing: -1px;">
+        🪄Make A Wish🪄
+    </h1>
+    <p style="font-size:1.5rem; color: var(--faded-gold); opacity: 0.9; line-height: 1.4; font-family: 'Noto Sans Ethiopic', sans-serif;">
         ምኞቶን ይተንፍሱት🪄<br>
         ማን ያቃል አንዱ ሊያሳካው ይችላል😁
     </p>
     
     {% if user.is_authenticated %}
-        <a href="{% url 'wishes:create' %}" class="btn" style="font-size:1.3rem; padding:15px 40px; margin-top:20px;">
+        <a href="{% url 'wishes:create' %}" class="btn" style="font-size:1.3rem; padding:15px 50px; margin-top:20px; border-radius: 50px; box-shadow: 0 10px 20px rgba(122, 33, 26, 0.4); display: inline-block; transition: 0.3s;">
             Tell Your Wish
         </a>
     {% else %}
-        <p style="margin-top:30px;">
-            <a href="{% url 'accounts:signup' %}" class="btn">Sign Up</a>
-            <a href="{% url 'accounts:login' %}" style="margin-left:20px;">Log In</a>
-        </p>
+        <div style="margin-top:25px;">
+            <a href="{% url 'accounts:signup' %}" class="btn" style="padding: 12px 35px; border-radius: 50px;">Sign Up</a>
+            <a href="{% url 'accounts:login' %}" style="margin-left:25px; color: var(--faded-gold); font-weight: bold; font-size: 1.1rem; text-decoration: none; border-bottom: 2px solid var(--wood);">Log In</a>
+        </div>
     {% endif %}
 </div>
 
-<h2 style="text-align:center; margin:50px 0 30px;">Recent Wishes</h2>
+<div style="max-width: 1300px; margin: 0 auto; padding: 0 20px;">
+    <h2 style="text-align:left; margin-bottom: 30px; font-family: 'Playfair Display', serif; color: var(--faded-gold); border-left: 4px solid var(--wood); padding-left: 15px;">
+        Recent Wishes
+    </h2>
 
-{% if wishes %}
-    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:25px;">
-        {% for wish in wishes %}
-            <div class="card">
-                <h3 style="margin-top:0;">
-                    <a href="{% url 'wishes:detail' wish.pk %}">{{ wish.title }}</a>
-                </h3>
-                <p style="color:#6b4e31; font-size:0.95em;">
-                    by {{ wish.user.username }} • {{ wish.created_at|date:"d M Y" }}
-                </p>
-                <div style="margin-top:10px;">
-                    {% if wish.is_granted %}
-            <span style="background:#d4edda; color:#155724; padding:4px 10px; border-radius:4px; border:1px solid #c3e6cb; font-weight:bold;">
-                Granted ✅
-            </span>
-        {% else %}
-             <span style="background:#f8d7da; color:#721c24; padding:4px 10px; border-radius:4px; border:1px solid #f5c6cb; font-weight:bold;">
-                Pending ⚠️
-            </span>
-            {% endif %}
+    {% if wishes %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px;">
+            {% for wish in wishes %}
+                <div class="wish-item" style="position: relative; background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid rgba(210, 180, 140, 0.2); border-radius: 20px; padding: 30px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; overflow: hidden;">
+                    
+                    <div style="position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background: var(--faded-gold); filter: blur(60px); opacity: 0.1;"></div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <span style="color: var(--faded-gold); font-size: 0.85rem; letter-spacing: 1px; opacity: 0.6;">
+                            {{ wish.created_at|date:"M d, Y" }}
+                        </span>
+                        {% if wish.is_granted %}
+                            <span style="background: #28a745; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 800; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);">GRANTED ✅</span>
+                        {% else %}
+                            <span style="border: 1px solid #fb4934; color: #fb4934; padding: 3px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 800;">PENDING</span>
+                        {% endif %}
+                    </div>
+
+                    <h3 style="margin: 0 0 15px 0; line-height: 1.3;">
+                        <a href="{% url 'wishes:detail' wish.pk %}" style="color: var(--faded-gold); text-decoration: none; font-size: 1.8rem; font-family: 'Playfair Display', serif; display: block;">
+                            {{ wish.title }}
+                        </a>
+                    </h3>
+
+                    <p style="color: var(--parchment); opacity: 0.8; line-height: 1.6; font-size: 1.05rem; margin-bottom: 25px;">
+                        {{ wish.description|truncatewords:20 }}
+                    </p>
+
+                    <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(210, 180, 140, 0.1);">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 35px; height: 35px; background: var(--wood); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.9rem;">
+                                {{ wish.user.username|slice:":1"|upper }}
+                            </div>
+                            <span style="color: var(--parchment); font-weight: bold;">{{ wish.user.username }}</span>
+                        </div>
+
+                        <div style="display: flex; gap: 15px;">
+                            <span style="color: var(--faded-gold); font-weight: bold;">❤️ {{ wish.like_count }}</span>
+                            <span style="color: var(--faded-gold); opacity: 0.6;">💬 {{ wish.comments.count }}</span>
+                        </div>
+                    </div>
+
+                    <style>
+                        .wish-item:hover {
+                            transform: scale(1.03);
+                            border-color: var(--faded-gold);
+                            background: rgba(255, 255, 255, 0.07);
+                            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+                        }
+                        .wish-item:hover h3 a {
+                            color: #fff !important;
+                        }
+                    </style>
                 </div>
-                <div style="margin-top:10px;">
-                    {{ wish.like_count }} likes
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <p style="text-align:center; color:#777; font-style:italic;">
-        No wishes shared yet... start the magic.
-    </p>
-{% endif %}
-<!-- Banner -->
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align:center; padding: 100px 0;">
+            <p style="color: var(--parchment); opacity: 0.5; font-size: 1.5rem; font-style: italic;">
+                The ledger is empty. Start the magic...
+            </p>
+        </div>
+    {% endif %}
+</div>
+
+<div style="margin-top: 150px;"></div>
 
 {% endblock %}

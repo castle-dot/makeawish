@@ -3,28 +3,41 @@
 {% block title %}Delete Comment{% endblock %}
 
 {% block content %}
-
-<div style="max-width: 600px; margin: 50px auto; padding: 30px; background: #fffef5; border: 2px solid #d2b48c; border-radius: 12px; text-align: center;">
-    <h2 style="color: #5c2d0d; margin-bottom: 20px;">Delete Comment</h2>
+<div style="max-width: 600px; margin: 100px auto; padding: 40px; background: rgba(255,255,255,0.03); border: 1px solid var(--wood); border-radius: 16px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.4);">
     
-    <p style="font-size: 1.2rem; margin-bottom: 30px;">
-        Are you sure you want to delete this comment?<br>
-        <em>"{{ comment.content|truncatewords:20 }}"</em>
+    <h2 style="color: var(--faded-gold); font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 20px;">
+        Delete Comment?
+    </h2>
+    
+    <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px; border-left: 3px solid #fb4934; margin-bottom: 30px; text-align: left;">
+        <p style="color: var(--parchment); font-size: 1.1rem; line-height: 1.6; margin: 0;">
+            <span style="opacity: 0.5; font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 5px;">Comment Content:</span>
+            "{{ comment.content|truncatewords:20 }}"
+        </p>
+    </div>
+    
+    <p style="color: var(--parchment); opacity: 0.6; margin-bottom: 40px;">
+        This action is permanent and cannot be undone.
     </p>
     
-    <p style="color: #777; margin-bottom: 40px;">
-        This action cannot be undone.
-    </p>
-    
-    <form method="post">
+    <form method="post" style="display: flex; gap: 15px; justify-content: center;">
         {% csrf_token %}
-        <button type="submit" style="background:#dc3545; color:white; padding:14px 40px; border:none; border-radius:8px; font-size:1.3rem; cursor:pointer; margin-right:20px;">
-            Yes, Delete
-        </button>
-        <a href="{% url 'wishes:detail' comment.wish.pk %}" style="background:#6c757d; color:white; padding:14px 40px; border-radius:8px; text-decoration:none; font-size:1.3rem;">
+        
+        <a href="{% url 'wishes:detail' comment.wish.pk %}" 
+           style="background: transparent; color: var(--parchment); padding: 12px 30px; border: 1px solid var(--wood); border-radius: 8px; text-decoration: none; font-size: 1rem; transition: 0.3s; opacity: 0.8;">
             Cancel
         </a>
+
+        <button type="submit" 
+                style="background: #fb4934; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(251, 73, 52, 0.2);">
+            Yes, Delete Comment
+        </button>
     </form>
 </div>
 
+<p style="text-align: center; margin-top: 30px;">
+    <a href="{% url 'wishes:detail' comment.wish.pk %}" style="text-decoration: none; color: var(--faded-gold); opacity: 0.5; font-size: 0.9rem;">
+        ← Back to Wish
+    </a>
+</p>
 {% endblock %}

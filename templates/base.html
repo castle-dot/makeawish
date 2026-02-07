@@ -139,26 +139,30 @@
     </style>
 </head>
 <body>
+    <nav class="navbar" style="padding: 20px 0; min-height: 50px; display: flex; align-items: center;">
+    <div class="container" style="max-width: 100%; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        
+        <a class="navbar-brand" href="{% url 'home' %}" style="margin: 10px; font-size: 2rem; line-height: 1; padding: 2px;">
+            Make A Wish
+        </a>
 
-    <nav class="navbar">
-        <div class="container" style="padding-top:0; padding-bottom:0;">
-            <a class="navbar-brand" href="{% url 'home' %}">Make A Wish</a>
-            <div style="float:right; margin-top:15px; font-family: 'Playfair Display', serif;">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'accounts:profile' %}">Profile</a> &nbsp;•&nbsp;
-                    <a href="{% url 'wishes:create' %}">Post Wish</a> &nbsp;•&nbsp;
-                    <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" style="background:none;border:none;color:var(--faded-gold);cursor:pointer;font-family:inherit;font-size:1.1rem;text-decoration:underline;">Logout</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'accounts:login' %}">Login</a> &nbsp;•&nbsp;
-                    <a href="{% url 'accounts:signup' %}">Sign Up</a>
-                {% endif %}
-            </div>
+        <div style="font-family: 'Playfair Display', serif; display: flex; gap: 15px; align-items: center; font-size: 1rem;">
+            <a href="{% url 'about' %}" style="color: var(--faded-gold); text-decoration: none;">About</a>
+            
+            {% if user.is_authenticated %}
+                <a href="{% url 'accounts:profile' %}" style="color: var(--faded-gold); text-decoration: none;">Profile</a>
+                <a href="{% url 'wishes:create' %}" style="color: var(--faded-gold); text-decoration: none;">Post Wish</a>
+                <form action="{% url 'accounts:logout' %}" method="post" style="display:inline; margin:0;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none; border:none; color:var(--faded-gold); cursor:pointer; font-family:inherit; font-size:1rem; text-decoration:underline; padding:0; margin:0;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" style="color: var(--faded-gold); text-decoration: none;">Login</a>
+                <a href="{% url 'accounts:signup' %}" style="color: var(--faded-gold); text-decoration: none;">Sign Up</a>
+            {% endif %}
         </div>
-    </nav>
-
+    </div>
+</nav>
     <div class="left-ad-bar">
         <p>Gems</p>
         <img src="https://i.ibb.co/KtvWXb0/ad-banner.png" alt="Antique Ad">

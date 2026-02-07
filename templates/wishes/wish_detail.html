@@ -3,115 +3,123 @@
 {% block title %}{{ wish.title }} - Make A Wish{% endblock %}
 
 {% block content %}
-<div style="max-width: 700px; margin: 0 auto; padding: 20px;">
+<div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
 
-    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--wood); border-radius: 12px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    <div style="display: grid; grid-template-columns: 1fr 300px; gap: 30px; align-items: start;">
         
-        <h1 style="font-size: 3rem; margin: 0 0 10px; color: var(--faded-gold); text-align: left;">
-            {{ wish.title }}
-        </h1>
-        <p style="color: var(--faded-gold); opacity: 0.8; font-size: 1.1rem; margin-bottom: 25px; border-bottom: 1px solid var(--wood); padding-bottom: 15px;">
-            by <strong>{{ wish.user.username }}</strong> • {{ wish.created_at|date:"d M Y H:i" }}
-        </p>
-
-        <div style="margin-bottom: 30px;">
-            {% if wish.is_granted %}
-                <span style="background: rgba(40, 167, 69, 0.2); color: #8ec07c; padding: 6px 15px; border-radius: 4px; border: 1px solid #8ec07c; font-weight: bold;">
-                    Granted ✅
-                </span>
-            {% else %}
-                <span style="background: rgba(220, 53, 69, 0.1); color: #fb4934; padding: 6px 15px; border-radius: 4px; border: 1px solid #fb4934; font-weight: bold;">
-                    Pending ⚠️
-                </span>
-            {% endif %}
-        </div>
-
-        <div style="font-size: 1.25rem; line-height: 1.8; color: var(--parchment); margin-bottom: 40px;">
-            <h3 style="color: var(--faded-gold); font-size: 1.8rem; margin-bottom: 15px;">The Wish</h3>
-            {{ wish.description|linebreaks }}
-        </div>
-
-        {% if wish.phone_number or wish.bank_account or wish.bank_name %}
-            <div style="background: rgba(0,0,0,0.3); border: 1px dashed var(--wood); border-radius: 8px; padding: 25px; margin-bottom: 40px;">
-                <h3 style="color: var(--faded-gold); margin-top: 0; font-size: 1.5rem;">
-                    Contact / Payment Info (optional)
-                </h3>
-                <div style="font-size: 1.1rem; color: var(--parchment);">
-                    {% if wish.phone_number %}<p><strong>Phone:</strong> {{ wish.phone_number }}</p>{% endif %}
-                    {% if wish.bank_account %}<p><strong>Bank Account:</strong> {{ wish.bank_account }}</p>{% endif %}
-                    {% if wish.bank_name %}<p><strong>Bank:</strong> {{ wish.bank_name }}</p>{% endif %}
-                </div>
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--wood); border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            
+            <div style="margin-bottom: 25px;">
+                <h1 style="font-size: 3.2rem; margin: 0; color: var(--faded-gold); font-family: 'Playfair Display', serif; line-height: 1.2;">
+                    {{ wish.title }}
+                </h1>
+                <p style="color: var(--faded-gold); opacity: 0.6; font-size: 0.9rem; margin-top: 10px;">
+                    Posted by <strong>{{ wish.user.username }}</strong> • {{ wish.created_at|date:"d M Y H:i" }}
+                </p>
             </div>
-        {% endif %}
 
-        <div style="display: flex; align-items: center; gap: 15px; border-top: 1px solid var(--wood); padding-top: 25px;">
-            <form action="{% url 'wishes:like' wish.pk %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn" style="background: {% if wish.is_liked_by.user %}var(--wood){% else %}#7a211a{% endif %}; border-radius: 30px;">
-                    {% if wish.is_liked_by.user %}Unlike{% else %}Like{% endif %} ❤️ {{ wish.like_count }}
-                </button>
-            </form>
-
-            {% if user == wish.user %}
-                <a href="{% url 'wishes:update' wish.pk %}" style="color: var(--faded-gold); text-decoration: none; font-weight: bold;">Edit</a>
-                <a href="{% url 'wishes:delete' wish.pk %}" style="color: #fb4934; text-decoration: none; font-weight: bold;">Delete</a>
-                
-                {% if not wish.is_granted %}
-                    <form action="{% url 'wishes:mark_granted' wish.pk %}" method="post" style="margin-left: auto;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn" style="background: #2e4d2e; border-radius: 8px;">Mark as Granted 🎉</button>
-                    </form>
+            <div style="margin-bottom: 30px;">
+                {% if wish.is_granted %}
+                    <span style="background: rgba(40, 167, 69, 0.1); color: #8ec07c; padding: 5px 15px; border-radius: 20px; border: 1px solid #8ec07c; font-size: 0.8rem; font-weight: bold;">Granted ✅</span>
+                {% else %}
+                    <span style="background: rgba(220, 53, 69, 0.05); color: #fb4934; padding: 5px 15px; border-radius: 20px; border: 1px solid #fb4934; font-size: 0.8rem; font-weight: bold;">Pending ⚠️</span>
                 {% endif %}
-            {% endif %}
+            </div>
+
+            <div style="font-size: 1.25rem; line-height: 1.8; color: var(--parchment); font-family: 'Georgia', serif; border-left: 3px solid var(--wood); padding-left: 25px; margin-bottom: 40px;">
+                {{ wish.description|linebreaks }}
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 20px; border-top: 1px solid rgba(210,180,140,0.2); padding-top: 25px;">
+                <form action="{% url 'wishes:like' wish.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn" style="background: {% if wish.is_liked_by.user %}var(--wood){% else %}transparent{% endif %}; border: 1px solid var(--wood); border-radius: 30px; padding: 8px 25px; cursor: pointer;">
+                        ❤️ {{ wish.like_count }}
+                    </button>
+                </form>
+
+                {% if user == wish.user %}
+                    <a href="{% url 'wishes:update' wish.pk %}" style="color: var(--faded-gold); text-decoration: none; font-size: 0.9rem; font-weight: bold;">Edit Wish</a>
+                    <a href="{% url 'wishes:delete' wish.pk %}" style="color: #fb4934; text-decoration: none; font-size: 0.9rem; opacity: 0.8;">Delete</a>
+                {% endif %}
+            </div>
         </div>
+
+        <aside>
+            {% if wish.phone_number or wish.bank_account or wish.bank_name %}
+                <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--wood); border-radius: 12px; padding: 20px;">
+                    <h3 style="color: var(--faded-gold); margin-top: 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(210,180,140,0.2); padding-bottom: 10px; margin-bottom: 15px;">Details</h3>
+                    <div style="font-size: 0.95rem; color: var(--parchment); line-height: 1.6;">
+                        {% if wish.phone_number %}<p><strong>Phone:</strong><br>{{ wish.phone_number }}</p>{% endif %}
+                        {% if wish.bank_name %}<p><strong>Bank:</strong><br>{{ wish.bank_name }}</p>{% endif %}
+                        {% if wish.bank_account %}<p><strong>Account:</strong><br>{{ wish.bank_account }}</p>{% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </aside>
     </div>
 
-    <div style="margin-top: 50px;">
-        <h3 style="color: var(--faded-gold); font-size: 2rem; margin-bottom: 25px; text-align: center;">
-            Comments ({{ wish.comments.count }})
-        </h3>
+    <div style="max-width: 750px; margin-top: 60px;">
+        <h3 style="color: var(--faded-gold); font-size: 1.4rem; margin-bottom: 25px;">Comments ({{ wish.comments.count }})</h3>
 
         {% if wish.comments.exists %}
             {% for comment in wish.comments.all %}
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--wood); border-radius: 10px; padding: 20px; margin-bottom: 15px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <strong style="color: var(--faded-gold);">{{ comment.user.username }}</strong>
-                        <small style="opacity: 0.5;">{{ comment.created_at|date:"d M Y H:i" }}</small>
-                    </div>
-                    <p style="margin: 0; color: var(--parchment); line-height: 1.6;">{{ comment.content|linebreaks }}</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 15px 0; border-bottom: 1px solid rgba(210,180,140,0.1);">
                     
-                    {% if user == comment.user %}
-                        <div style="margin-top: 10px;">
-                            <a href="#" onclick="..." style="font-size: 0.85rem; color: var(--faded-gold);">Edit</a>
-                            <a href="{% url 'comments:delete' comment.pk %}" style="font-size: 0.85rem; color: #fb4934; margin-left: 10px;">Delete</a>
+                    <div style="flex: 1;">
+                        <div id="comment-display-{{ comment.id }}" style="display: flex; gap: 12px;">
+                            <strong style="color: var(--faded-gold); white-space: nowrap;">{{ comment.user.username }}</strong>
+                            <span style="color: var(--parchment); line-height: 1.4;">{{ comment.content }}</span>
                         </div>
-                    {% endif %}
+
+                        <div id="edit-form-{{ comment.id }}" style="display: none; margin-top: 10px;">
+                            <form method="post" action="{% url 'comments:edit' comment.id %}" style="display: flex; gap: 10px;">
+                                {% csrf_token %}
+                                <input type="text" name="content" value="{{ comment.content }}" style="flex: 1; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid var(--wood); color: white; border-radius: 4px;">
+                                <button type="submit" class="btn" style="padding: 5px 15px; font-size: 0.8rem;">Save</button>
+                                <button type="button" onclick="toggleEdit('{{ comment.id }}')" class="btn" style="padding: 5px 15px; font-size: 0.8rem; background: transparent; border: 1px solid #fb4934; color: #fb4934;">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: right; margin-left: 20px; white-space: nowrap;">
+                        <small style="opacity: 0.4; display: block; margin-bottom: 4px;">{{ comment.created_at|date:"d M Y H:i" }}</small>
+                        
+                        {% if user == comment.user or user.is_superuser %}
+                            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                                <a href="javascript:void(0);" onclick="toggleEdit('{{ comment.id }}')" style="font-size: 0.75rem; color: var(--faded-gold); text-decoration: none; opacity: 0.7;">Edit</a>
+                                <a href="{% url 'comments:delete' comment.pk %}" style="font-size: 0.75rem; color: #fb4934; text-decoration: none; opacity: 0.7;">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             {% endfor %}
-        {% else %}
-            <p style="text-align: center; opacity: 0.5; font-style: italic;">No comments yet.</p>
         {% endif %}
 
         {% if user.is_authenticated %}
-            <div style="margin-top: 30px; padding: 20px; border-top: 1px solid var(--wood);">
-                <h4 style="color: var(--faded-gold);">Add Your Comment</h4>
-                <form method="post" action="{% url 'comments:add' wish.pk %}">
+            <div style="margin-top: 40px; border-top: 1px solid rgba(210,180,140,0.1); padding-top: 20px;">
+                <form method="post" action="{% url 'comments:add' wish.pk %}" style="display: flex; gap: 15px;">
                     {% csrf_token %}
-                    <textarea name="content" rows="3" required style="width:100%; padding:15px; background: rgba(0,0,0,0.2); border: 1px solid var(--wood); color: white; border-radius: 8px;"></textarea>
-                    <button type="submit" class="btn" style="margin-top: 15px;">Post Comment</button>
+                    <textarea name="content" rows="1" required placeholder="Write a comment..." style="width:100%; padding:12px; background: rgba(255,255,255,0.05); border: 1px solid var(--wood); color: white; border-radius: 8px; font-family: inherit; resize: none;"></textarea>
+                    <button type="submit" class="btn" style="border-radius: 8px; padding: 0 25px;">Post</button>
                 </form>
-            </div>
-        {% else %}
-            <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 8px;">
-                <p style="margin: 0;">
-                    <a href="{% url 'accounts:login' %}" style="color: var(--faded-gold); font-weight: bold; text-decoration: underline;">Log in</a> to leave a comment.
-                </p>
             </div>
         {% endif %}
     </div>
-
-    <p style="text-align: center; margin-top: 50px;">
-        <a href="{% url 'home' %}" style="text-decoration: none; color: var(--faded-gold);">← Back to all wishes</a>
-    </p>
 </div>
+
+<script>
+function toggleEdit(commentId) {
+    const displayDiv = document.getElementById(`comment-display-${commentId}`);
+    const formDiv = document.getElementById(`edit-form-${commentId}`);
+    
+    if (displayDiv.style.display === "none") {
+        displayDiv.style.display = "flex";
+        formDiv.style.display = "none";
+    } else {
+        displayDiv.style.display = "none";
+        formDiv.style.display = "block";
+    }
+}
+</script>
 {% endblock %}

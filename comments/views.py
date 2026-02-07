@@ -47,19 +47,20 @@ def delete_comment(request, comment_id):
 def edit_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     
-    if request.user != comment.user:
+    # Only the comment owner or superuser can edit
+    if request.user != comment.user and not request.user.is_superuser:
         messages.error(request, "You can only edit your own comments.")
         return redirect('wishes:detail', pk=comment.wish.pk)
     
     if request.method == 'POST':
-        content = request.POST.get('content')
-        if content:
-            comment.content = content
-            comment.save()
-            messages.success(request, "Comment updated!")
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Comment updated successfully.")
+            return redirect('wishes:detail', pk=comment.wish.pk)
         else:
-            messages.error(request, "Comment cannot be empty.")
-        return redirect('wishes:detail', pk=comment.wish.pk)
+            messages.error(request, "Could not update comment. Please check your input.")
+    else:
+        form = CommentForm(instance=comment)
     
-    # GET should not happen (handled by JS)
-    return redirect('wishes:detail', pk=comment.wish.pk)
+    return render(request, 'comments/edit_comment.html', {'form': form, 'comment': comment})

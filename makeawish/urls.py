@@ -28,6 +28,7 @@ urlpatterns = [
     path('', WishListView.as_view(template_name='home.html'), name='home'),
     path('wishes/', include('wishes.urls')),
     path('comments/', include('comments.urls')),  
+    path('about/', TemplateView.as_view(template_name='accounts/about.html'), name='about'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0] if settings.STATICFILES_DIRS else settings.STATIC_ROOT)

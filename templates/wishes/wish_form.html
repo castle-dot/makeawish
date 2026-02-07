@@ -3,15 +3,88 @@
 {% block title %}{% if object %}Edit Wish{% else %}Post Wish{% endif %}{% endblock %}
 
 {% block content %}
+<div style="max-width: 800px; margin: 60px auto; padding: 20px;">
+    
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="color: var(--faded-gold); font-family: 'Playfair Display', serif; font-size: 2.8rem; margin: 0;">
+            {% if object %}Edit Your Wish{% else %}Share a New Wish{% endif %}
+        </h2>
+        <p style="color: var(--parchment); opacity: 0.6; margin-top: 10px;">
+            {% if object %}Refine your story and details below.{% else %}Tell the community what you need or what you're dreaming of.{% endif %}
+        </p>
+    </div>
 
-<h2>{% if object %}Edit Wish{% else %}Post a Wish{% endif %}</h2>
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--wood); border-radius: 20px; padding: 40px; box-shadow: 0 15px 50px rgba(0,0,0,0.5);">
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="custom-form-wrapper">
+                {% for field in form %}
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; color: var(--faded-gold); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; font-weight: bold;">
+                            {{ field.label }}
+                        </label>
+                        
+                        <div class="field-container">
+                            {{ field }}
+                        </div>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-</form>
+                        {% if field.help_text %}
+                            <small style="display: block; color: var(--parchment); opacity: 0.4; margin-top: 5px; font-style: italic;">
+                                {{ field.help_text }}
+                            </small>
+                        {% endif %}
 
-<a href="{% url 'home' %}">Cancel</a>
+                        {% for error in field.errors %}
+                            <p style="color: #fb4934; font-size: 0.8rem; margin-top: 5px;">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
 
+            <div style="display: flex; gap: 20px; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(210,180,140,0.1);">
+                <button type="submit" class="btn" style="flex: 2; padding: 15px; font-size: 1.1rem; border-radius: 10px; font-weight: bold;">
+                    {% if object %}Update Wish{% else %}Post Wish to Feed{% endif %}
+                </button>
+                
+                <a href="{% if object %}{% url 'wishes:detail' object.pk %}{% else %}{% url 'home' %}{% endif %}" 
+                   style="flex: 1; text-align: center; color: var(--parchment); text-decoration: none; opacity: 0.6; font-size: 0.9rem; transition: 0.3s;"
+                   onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Targeting Django's default input rendering */
+    .field-container input, 
+    .field-container textarea, 
+    .field-container select {
+        width: 100%;
+        padding: 14px;
+        background: rgba(0, 0, 0, 0.2) !important;
+        border: 1px solid var(--wood) !important;
+        border-radius: 8px !important;
+        color: white !important;
+        font-family: inherit;
+        font-size: 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .field-container input:focus, 
+    .field-container textarea:focus {
+        outline: none;
+        border-color: var(--faded-gold) !important;
+        box-shadow: 0 0 8px rgba(210, 180, 140, 0.2);
+    }
+
+    /* Making the description textarea taller */
+    .field-container textarea {
+        min-height: 150px;
+        line-height: 1.6;
+    }
+</style>
 {% endblock %}
